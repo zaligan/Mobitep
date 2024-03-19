@@ -14,3 +14,7 @@ Assets/Mobitep フォルダを対象のプロジェクトの Assets フォルダ
 ### 実行を確認した環境
 - Windows 10, Windows 11
 - Unity 2020.3.32f1
+
+### デモ映像
+https://github.com/zaligan/Mobitep/assets/132348777/ab50721a-7e55-43b1-bf66-31668cc8bd9f
+
