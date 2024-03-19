@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class CubeMove : MonoBehaviour
 {
+    /// <summary>
+    /// 右に設定したマウスで動かすオブジェクト
+    /// </summary>
     [SerializeField] GameObject R;
 
+    /// <summary>
+    /// 左に設定したマウスで動かすオブジェクト
+    /// </summary>
     [SerializeField] GameObject L;
 
     /// <summary>
@@ -13,10 +19,19 @@ public class CubeMove : MonoBehaviour
     /// </summary>
     public float MoveSpeed = 0.1f;
 
+    /// <summary>
+    /// 未加工の入力を読み込むクラス
+    /// </summary>
     private MouseInputReader m_mouseInputReader;
 
+    /// <summary>
+    /// 右のマウスの移動ベクトル
+    /// </summary>
     private Vector2 m_rightInputValueVec;
 
+    /// <summary>
+    /// 左のマウスの移動ベクトル
+    /// </summary>
     private Vector2 m_leftInputValueVec;
 
     // Start is called before the first frame update
@@ -31,7 +46,7 @@ public class CubeMove : MonoBehaviour
         // 入力があれば読み込む
         if (0 < m_mouseInputReader.GetRightInputValueListCount())
         {
-            m_rightInputValueVec = m_mouseInputReader.GetRightInputValueList() * MoveSpeed;
+            m_rightInputValueVec = m_mouseInputReader.PopRightInputValueList() * MoveSpeed;
         }
         else
         {
@@ -40,7 +55,7 @@ public class CubeMove : MonoBehaviour
 
         if (0 < m_mouseInputReader.GetLeftInputValueListCount())
         {
-            m_leftInputValueVec = m_mouseInputReader.GetLeftInputValueList() * MoveSpeed;
+            m_leftInputValueVec = m_mouseInputReader.PopLeftInputValueList() * MoveSpeed;
         }
         else
         {

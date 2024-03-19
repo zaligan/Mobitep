@@ -5,6 +5,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+/// <summary>
+/// Handle.txtに保存されたマウスから未加工の入力を読み込みます。
+/// </summary>
 public class MouseInputReader : MonoBehaviour
 {
     /// <summary>
@@ -23,7 +26,9 @@ public class MouseInputReader : MonoBehaviour
     /// </summary>
     private WindowsRawInput.WndProcDelegate m_newWndProc;
 
-    //TODO: RAWINPUT にキーボードとその他のデバイスの情報を追加する
+    /// <summary>
+    /// RAWINPUT構造体のヘッダーのサイズ
+    /// </summary>
     private UInt32 m_rawInputHeaderSize = (UInt32)Marshal.SizeOf<WindowsRawInput.RAWINPUTHEADER>();
 
     /// <summary>
@@ -65,11 +70,11 @@ public class MouseInputReader : MonoBehaviour
     }
 
     /// <summary>
-    /// 右側のマウスの入力値リストから先頭の要素を取り出す
+    /// 右側のマウスの入力値リストから先頭の要素を取り出す。
     /// </summary>
     /// <returns> 右側のマウスの入力値 </returns>
     /// <exception cref="IndexOutOfRangeException"> 要素数が 0 の時は使用できません </exception>
-    public Vector2 GetRightInputValueList()
+    public Vector2 PopRightInputValueList()
     {
         if (0 < m_rightInputValueList.Count)
         {
@@ -81,7 +86,7 @@ public class MouseInputReader : MonoBehaviour
         }
         else
         {
-            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The GetRightInputValueList currently contains no elements.\r\n");
+            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The PopRightInputValueList currently contains no elements.\r\n");
         }
     }
 
@@ -90,7 +95,7 @@ public class MouseInputReader : MonoBehaviour
     /// </summary>
     /// <returns> 左側のマウスの入力値 </returns>
     /// <exception cref="IndexOutOfRangeException"> 要素数が 0 の時は使用できません </exception>
-    public Vector2 GetLeftInputValueList()
+    public Vector2 PopLeftInputValueList()
     {
         if (0 < m_leftInputValueList.Count)
         {
@@ -102,7 +107,7 @@ public class MouseInputReader : MonoBehaviour
         }
         else
         {
-            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The GetLeftInputValueList currently contains no elements.\r\n");
+            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The PopLeftInputValueList currently contains no elements.\r\n");
         }
     }
 

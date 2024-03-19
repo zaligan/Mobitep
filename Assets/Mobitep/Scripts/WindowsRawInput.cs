@@ -5,29 +5,46 @@ using UnityEngine;
 //  WindowsRawInputについての詳細情報は以下のリンクを参照してください。
 //  https://learn.microsoft.com/ja-jp/windows/win32/inputdev/raw-input
 
+
 namespace Mobitep.RawInput
 {
+    /// <summary>
+    /// WindowsのRawInputAPIを使用するために必要な構造体や関数を定義します。
+    /// </summary>
     public class WindowsRawInput
     {
         /// <summary>
         /// 未加工の入力デバイスの情報を定義します。
-        /// https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-rawinputdevice
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct RAWINPUTDEVICE
         {
+            /// <summary>
+            /// デバイスの種類。
+            /// </summary>
             [MarshalAs(UnmanagedType.U2)]
             public UInt16 usUsagePage;
+
+            /// <summary>
+            /// デバイスのさらに詳細な種類。
+            /// </summary>
             [MarshalAs(UnmanagedType.U2)]
             public UInt16 usUsage;
+
+            /// <summary>
+            /// 未加工の入力の登録方法を指定します。
+            /// </summary>
             [MarshalAs(UnmanagedType.U4)]
             public int dwFlags;
+
+            /// <summary>
+            /// ウィンドウへのハンドル。NULL の場合、キーボードフォーカスに従います。
+            /// </summary>
             public IntPtr hwndTarget;
         }
 
         /// <summary>
         /// 未加工の入力デバイスの情報を格納します。
-        /// https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-rawinputdevicelist
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct PRAWINPUTDEVICELIST
@@ -43,9 +60,9 @@ namespace Mobitep.RawInput
             public UInt32 dwType;
         }
 
+        //TODO: RAWINPUT にキーボードとその他のデバイスの情報を追加する
         /// <summary>
         /// デバイス(マウス)からの生の入力を格納します。
-        /// https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-rawinput
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct RAWINPUT
@@ -63,7 +80,6 @@ namespace Mobitep.RawInput
 
         /// <summary>
         /// 未加工の入力データの一部であるヘッダー情報を格納します。
-        /// https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-rawinputheader
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct RAWINPUTHEADER
@@ -91,7 +107,6 @@ namespace Mobitep.RawInput
 
         /// <summary>
         /// マウスの状態に関する情報を格納します。32bit環境でlongは32bitのためInt32を使用
-        /// https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-rawmouse
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct RAWMOUSE
@@ -170,6 +185,9 @@ namespace Mobitep.RawInput
         /// </summary>
         public const int WM_INPUT = 0x00FF;
 
+        /// <summary>
+        /// ウィンドウが非アクティブな状態でも入力を受け取ります。RAWINPUTDEVICE.dwFlags で使用します。
+        /// </summary>
         public const int RIDEV_INPUTSINK = 0x00000100;
 
         /// <summary>
@@ -208,14 +226,8 @@ namespace Mobitep.RawInput
             HID = 2
         }
 
-        
-        private IntPtr m_oldWndProcPtr;
-        private IntPtr m_newWndProcPtr;
-        private WndProcDelegate m_newWndProc;
-
         //TODO: RAWINPUT にキーボードとその他のデバイスの情報を追加する
         private UInt32 m_rawInputHeaderSize = (UInt32)Marshal.SizeOf<RAWINPUTHEADER>();
-
 
         /// <summary>
         /// ウィンドウプロシージャのアドレスを設定します

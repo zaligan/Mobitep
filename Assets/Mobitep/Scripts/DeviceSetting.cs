@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Mobitep.Editor
 {
+    /// <summary>
+    /// DeviceSettingのEditorWindowを作成します。
+    /// </summary>
     public class DeviceSetting : EditorWindow
     {
         /// <summary>
@@ -146,7 +149,7 @@ namespace Mobitep.Editor
 
             // Handler.txtへのパスを構築
             string filePath = Path.Combine(assetsPath, "Mobitep/Handler.txt");
-            Debug.Log(filePath);
+            Debug.Log("SaveHandleText" + filePath);
             // テキストをファイルに書き込む
             File.WriteAllText(filePath, text);
         }
