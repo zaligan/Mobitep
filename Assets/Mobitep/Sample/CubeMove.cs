@@ -43,24 +43,10 @@ public class CubeMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 入力があれば読み込む
-        if (0 < m_mouseInputReader.GetRightInputValueListCount())
-        {
-            m_rightInputValueVec = m_mouseInputReader.PopRightInputValueList() * MoveSpeed;
-        }
-        else
-        {
-            m_rightInputValueVec = Vector2.zero;
-        }
-
-        if (0 < m_mouseInputReader.GetLeftInputValueListCount())
-        {
-            m_leftInputValueVec = m_mouseInputReader.PopLeftInputValueList() * MoveSpeed;
-        }
-        else
-        {
-            m_leftInputValueVec = Vector2.zero;
-        }
+        // マウスの移動量を取得
+        m_rightInputValueVec = m_mouseInputReader.PopInputValueList(MouseInputReader.MouseType.Right) * MoveSpeed;
+        m_leftInputValueVec = m_mouseInputReader.PopInputValueList(MouseInputReader.MouseType.Left) * MoveSpeed;
+        
 
         // オブジェクトを移動させる
         R.transform.position += new Vector3(m_rightInputValueVec.x, 0, -m_rightInputValueVec.y);

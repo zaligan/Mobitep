@@ -11,6 +11,15 @@ using UnityEngine;
 public class MouseInputReader : MonoBehaviour
 {
     /// <summary>
+    /// マウスの種類
+    /// </summary>
+    public enum MouseType
+    {
+        Left,
+        Right,
+    }
+
+    /// <summary>
     /// メインウィンドウのハンドル
     /// </summary>
     private HandleRef m_hMainWindow;
@@ -52,62 +61,66 @@ public class MouseInputReader : MonoBehaviour
     private List<Vector2> m_leftInputValueList = new List<Vector2>();
 
     /// <summary>
-    /// 右側のマウスの入力値リストの要素数を取得
+    /// mouseTypeに対応するリストの要素数を取得
     /// </summary>
-    /// <returns> リストの要素数 </returns>
-    public Int32 GetRightInputValueListCount()
+    /// <param name="mouseType">左右のマウスを指定</param>
+    /// <returns> mouseType に対応しするリストの要素数</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public Int32 GetInputValueListCount(MouseType mouseType)
     {
-        return m_rightInputValueList.Count;
-    }
-
-    /// <summary>
-    /// 左側のマウスの入力値リストの要素数を取得
-    /// </summary>
-    /// <returns> リストの要素数 </returns>
-    public Int32 GetLeftInputValueListCount()
-    {
-        return m_leftInputValueList.Count;
-    }
-
-    /// <summary>
-    /// 右側のマウスの入力値リストから先頭の要素を取り出す。
-    /// </summary>
-    /// <returns> 右側のマウスの入力値 </returns>
-    /// <exception cref="IndexOutOfRangeException"> 要素数が 0 の時は使用できません </exception>
-    public Vector2 PopRightInputValueList()
-    {
-        if (0 < m_rightInputValueList.Count)
+        switch (mouseType)
         {
-            //読み込んだ要素を削除
-            Vector2 result = m_rightInputValueList[0];
-            m_rightInputValueList.RemoveAt(0);
+            case MouseType.Left:
+                return m_leftInputValueList.Count;
 
-            return result;
-        }
-        else
-        {
-            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The PopRightInputValueList currently contains no elements.\r\n");
+            case MouseType.Right:
+                return m_rightInputValueList.Count;
+
+            default:
+                throw new ArgumentOutOfRangeException("mouseType", mouseType, null);
         }
     }
 
     /// <summary>
-    /// 左側のマウスの入力値リストから先頭の要素を取り出す
+    /// マウスの移動量を取得
     /// </summary>
-    /// <returns> 左側のマウスの入力値 </returns>
-    /// <exception cref="IndexOutOfRangeException"> 要素数が 0 の時は使用できません </exception>
-    public Vector2 PopLeftInputValueList()
+    /// <param name="mouseType">左右のマウスを指定</param>
+    /// <returns>マウスの移動量、(X,Y)はマウスを(右,下)方向に動かしたとき正の値をとる。入力がないとき0ベクトルを返す</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public Vector2 PopInputValueList(MouseType mouseType)
     {
-        if (0 < m_leftInputValueList.Count)
+        switch (mouseType)
         {
-            //読み込んだ要素を削除
-            Vector2 result = m_leftInputValueList[0];
-            m_leftInputValueList.RemoveAt(0);
+            case MouseType.Left:
+                if (0 < m_leftInputValueList.Count)
+                {
+                    //読み込んだ要素を削除
+                    Vector2 result = m_leftInputValueList[0];
+                    m_leftInputValueList.RemoveAt(0);
 
-            return result;
-        }
-        else
-        {
-            throw new IndexOutOfRangeException("Access Error: Failed to read the element. The PopLeftInputValueList currently contains no elements.\r\n");
+                    return result;
+                }
+                else
+                {
+                    return Vector2.zero;
+                }
+
+            case MouseType.Right:
+                if (0 < m_rightInputValueList.Count)
+                {
+                    //読み込んだ要素を削除
+                    Vector2 result = m_rightInputValueList[0];
+                    m_rightInputValueList.RemoveAt(0);
+
+                    return result;
+                }
+                else
+                {
+                    return Vector2.zero;
+                }
+
+            default:
+                throw new ArgumentOutOfRangeException("mouseType", mouseType, null);
         }
     }
 
